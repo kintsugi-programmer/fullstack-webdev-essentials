@@ -1,3 +1,62 @@
+# Ruby:  A Programmer's Best Friend
+
+## 🧠 Overview
+Ruby: Interpreted, dynamic, object-oriented scripting language.
+
+Created By: Matz 1993
+
+Inspiration: Combines Python’s simplicity with Smalltalk’s true OOP.
+
+## 📈 Rise in Popularity
+Boom: After David Heinemeier Hansson (DHH) released Ruby on Rails (Rails) in 2005.
+
+Why Popular?:
+
+- Rails = full-stack MVC web framework.
+
+- Helped startups rapidly build web apps.
+
+- Used By: Twitter, Shopify, GitHub, Airbnb.
+
+## 🧱 What is an Object in OOP (Object-Oriented Programming)?
+An object is a real-world entity or instance of a class that contains:
+- Data (called attributes or properties)
+- Behavior (defined through methods or functions)
+## 🧠 MVC: Model–View–Controller
+MVC is a software design pattern commonly used for developing user interfaces that divide an application into three interconnected components:
+
+⚙️ Components of MVC
+| Component      | Responsibility                                                                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Model**      | Handles **data**, business logic, and rules of the application.                                                             |
+| **View**       | Manages the **UI** – what the user sees.                                                                                    |
+| **Controller** | Acts as the **intermediary** between Model and View – handles user input, processes it, and updates Model/View accordingly. |
+
+## 📦 Package Management
+RubyGems: The official package manager.
+
+Gem: Self-contained library/module/package.
+
+## Setup
+'''
+sudo apt install ruby
+ruby -v    # Should print something like: ruby 3.x.x
+'''
+'''
+nano file.rb
+ruby file.rb
+'''
+
+🧠 Takeaways Box
+- ✅ Simple, English-like syntax
+- ✅ Everything is an object
+- ✅ Full OOP + functional flexibility
+- ✅ Duck typing allows polymorphism without inheritance
+- ✅ Rails made it legendary for web apps
+- ✅ Huge ecosystem with RubyGems
+
+## ruby.rb
+```ruby
 # extension: file.rb
 # run:ruby file.rb
 # comment
@@ -371,3 +430,4 @@ puts admin1.greet
 admin1.putts
 # Welcome Bali, Your Id is 2022496
 # Name Bali
+```
