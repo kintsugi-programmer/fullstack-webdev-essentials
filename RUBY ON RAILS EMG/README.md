@@ -413,6 +413,48 @@ bali-king@war-machine:~/BaliGit/soralink$
   - `before_action :authenticate_user!` inside `app/controllers/trees_controller.rb` WOW
 ![alt text](image-12.png)
 
+- just like
+```
+  before_action :set_tree, only: %i[ show edit update destroy ] #only show edit update destroy is executed by method set_tree
+```
+then do similar to auth
+```
+  before_action :authenticate_user!, only: %i[ new edit update destroy ] #only new edit update destroy is executed by method authenticate_user
+```
+- we actually restrict it , now when we go to page , and IFF make a tree, then only auth comes
+![alt text](image-13.png)
+- auth done
+- you can create acc and log in
+- but still you need Login/Logout Buttion Navigation
+
+## Add Navbar Partial
+- partials are created only in layout and views folder `app/views/layouts`
+  - `newfile.html.erb` is ruby-html file extension
+  - partial [RENDEROFF] = `newfile.html.erb`
+  - partial [RENDERON] = `_newfile.html.erb`
+- now create `app/views/layouts/_navbar.html.erb` and write in it `Hi I am a Navbar`
+- now code this `<%= render "layouts/navbar"%>` inside body of `app/views/layouts/application.html.erb`,as whatever renders in this page will render on every other page
+![alt text](image-14.png)
+- tada
+- now we have to make links of signup, signin, logout
+- `<%= link_to "Sign up",new_user_registration_path %>` in `app/views/layouts/_navbar.html.erb`, its a link_to with "name", path of new user registration , which can be found by `rails routes`,
+`new_user_registration GET    /users/sign_up(.:format)        devise/registrations#new`,but write `new_user_registration` as `new_user_registration_path` ,add `_path`
+- sign up works
+![alt text](image-15.png)
+- `<%= link_to "Log out", destroy_user_session_path%> ` in `app/views/layouts/_navbar.html.erb`, but log out didn't work,error `No route matches [GET] "/users/sign_out"`
+![alt text](image-16.png)
+  - solution: add route that matches this
+  - 32:58 https://www.youtube.com/watch?v=Ei4Aa6RJTyo&list=PLR8BLHNyVZDVkZHDbm2mSL4RMISIBuBqs&index=4
+
+
+
+
+
+
+
+
+
+
 
 
 
