@@ -514,6 +514,8 @@ app.listen(port, ()=> {console.log(`Server Running SUCCESS at Port : ${port}`)})
 // server+mongoose server ready :)
 
 ```
+- don't run it till you makes routes :0
+- 26:00
 #### `routes/users.js`
 
 ```js
