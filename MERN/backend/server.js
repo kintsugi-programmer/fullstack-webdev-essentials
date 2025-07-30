@@ -73,7 +73,7 @@ const exercisesRouter = require('./routes/exercises');
 //exercisesRouter is now an Express router containing endpoints like POST, GET, etc., for exercises.
 const userRouter = require('./routes/users'); //usersRouter will handle routes related to user operations like registration or listing users
 
-app.use('/excercises', exercisesRouter); // Mount exercise routes at /exercises
+app.use('/exercises', exercisesRouter); // Mount exercise routes at /exercises
 // This tells the Express app to use all routes from exercisesRouter, and prefix them with /exercises.
 // For example, if exercisesRouter has a GET / route, it will be available at GET /exercises/.
 app.use('/users',userRouter) // Mount user routes at /users

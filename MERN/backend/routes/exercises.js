@@ -69,9 +69,9 @@ ADD.post(function(req,res){
 ID.get(function(req,res){ //function(res, req) { ... },no swap req,res ❌ ORDER MATTERS, TYPICAL READ OF ARGUEMENTS
     Exercise.findById(req.params.id)// Excercise is mongoose model representin Exercise colleciton in MongoDB db
     // findById is a Mongoose method It searches for a document by its unique _id field (the default MongoDB ID for every document).
-    .then(function(Exercise){res.json(Exercise)}
+    .then(function(Exercise){res.json(Exercise)})
     .catch(function(err){res.status(400).json('Error:'+ err)})
-    );
+    ;
 
 });
 

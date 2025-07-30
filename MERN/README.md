@@ -582,7 +582,7 @@ const exercisesRouter = require('./routes/exercises');
 //exercisesRouter is now an Express router containing endpoints like POST, GET, etc., for exercises.
 const userRouter = require('./routes/users'); //usersRouter will handle routes related to user operations like registration or listing users
 
-app.use('/excercises', exercisesRouter); // Mount exercise routes at /exercises
+app.use('/exercises', exercisesRouter); // Mount exercise routes at /exercises
 // This tells the Express app to use all routes from exercisesRouter, and prefix them with /exercises.
 // For example, if exercisesRouter has a GET / route, it will be available at GET /exercises/.
 app.use('/users',userRouter) // Mount user routes at /users
@@ -799,9 +799,9 @@ ADD.post(function(req,res){
 ID.get(function(req,res){ //function(res, req) { ... },no swap req,res ❌ ORDER MATTERS, TYPICAL READ OF ARGUEMENTS
     Exercise.findById(req.params.id)// Excercise is mongoose model representin Exercise colleciton in MongoDB db
     // findById is a Mongoose method It searches for a document by its unique _id field (the default MongoDB ID for every document).
-    .then(function(Exercise){res.json(Exercise)}
+    .then(function(Exercise){res.json(Exercise)})
     .catch(function(err){res.status(400).json('Error:'+ err)})
-    );
+    ;
 
 });
 
@@ -865,30 +865,164 @@ module.exports = router;
 - access through `req.params`
 - basically access stuff from url :0
 
+- now lets test our APIs
+
 ---
 
 ## 6. Testing API (Insomnia / Postman)
-
+- open API Tester
+- creat collection 
+- make request
+- shoot it :0
+- SUCCESS MEANS `200`
 1. **POST** `http://localhost:5000/users/add`
 
    ```json
-   { "username": "Beau" }
+   { "username": "Momotaro" }
    ```
+
+   output : `"User added!"`
 2. **GET** `http://localhost:5000/users`
+   
+    output :
+    ```json
+    [
+      {
+          "_id": "688a6c7c2ea7acb852ea682a",
+          "username": "momotaro",
+          "createdAt": "2025-07-30T19:03:24.994Z",
+          "updatedAt": "2025-07-30T19:03:24.994Z",
+          "__v": 0
+      },
+      {
+          "_id": "688a6cf72ea7acb852ea682c",
+          "username": "bali",
+          "createdAt": "2025-07-30T19:05:27.299Z",
+          "updatedAt": "2025-07-30T19:05:27.299Z",
+          "__v": 0
+      },
+      {
+          "_id": "688a6cfb2ea7acb852ea682e",
+          "username": "bhati",
+          "createdAt": "2025-07-30T19:05:31.711Z",
+          "updatedAt": "2025-07-30T19:05:31.711Z",
+          "__v": 0
+      },
+      {
+          "_id": "688a6d012ea7acb852ea6830",
+          "username": "bhaskar",
+          "createdAt": "2025-07-30T19:05:37.677Z",
+          "updatedAt": "2025-07-30T19:05:37.677Z",
+          "__v": 0
+      }
+    ]
+    ```
+    - mongodb auto created _id, and other stuff
+    - also we save to db !! 
+    - check from mongodb>atlas>exercise-tracker>collections
+    - refresh if any lag
+
 3. **POST** `http://localhost:5000/exercises/add`
 
    ```json
-   {
-     "username": "Beau",
-     "description": "Running",
-     "duration": 30,
-     "date": "2025-07-26T00:00:00.000Z"
-   }
+    {
+      "username":"bali",
+      "description":"Jumping Jacks",
+      "duration": "9" ,
+      "date":"2025-08-30T19:03:24.994Z"
+    }
    ```
+
+   output : `"Exercise added !"`
+
 4. **GET** `http://localhost:5000/exercises`
+
+      output :
+      ```json
+
+      [
+        {
+            "_id": "688a6fee71069ae17aa9e424",
+            "username": "bali",
+            "description": "Mountain Climbing",
+            "duration": 9,
+            "date": "2025-08-30T19:03:24.994Z",
+            "createdAt": "2025-07-30T19:18:06.596Z",
+            "updatedAt": "2025-07-30T19:18:06.596Z",
+            "__v": 0
+        },
+        {
+            "_id": "688a6ffb71069ae17aa9e426",
+            "username": "bali",
+            "description": "Jumping Jacks",
+            "duration": 9,
+            "date": "2025-08-30T19:03:24.994Z",
+            "createdAt": "2025-07-30T19:18:19.287Z",
+            "updatedAt": "2025-07-30T19:18:19.287Z",
+            "__v": 0
+        },
+        {
+            "_id": "688a707071069ae17aa9e428",
+            "username": "bhati",
+            "description": "Deadlift",
+            "duration": 11,
+            "date": "2025-08-30T19:03:24.994Z",
+            "createdAt": "2025-07-30T19:20:16.402Z",
+            "updatedAt": "2025-07-30T19:20:16.402Z",
+            "__v": 0
+        }
+      ] 
+      ```
 5. **GET** `http://localhost:5000/exercises/<id>`
+      - object id auto created by mongodb
+      - accessing `/:id` object id from database, then it will return that info only, directly access stuff from putting id in url
+      - eg: `http://localhost:5000/exercises/688a6fee71069ae17aa9e424`
+      - output :
+      ```json
+        {
+        "_id": "688a6fee71069ae17aa9e424",
+        "username": "bali",
+        "description": "Mountain Climbing",
+        "duration": 9,
+        "date": "2025-08-30T19:03:24.994Z",
+        "createdAt": "2025-07-30T19:18:06.596Z",
+        "updatedAt": "2025-07-30T19:18:06.596Z",
+        "__v": 0
+        }
+      ```
 6. **POST** `http://localhost:5000/exercises/update/<id>` (with updated fields)
+   - eg: `http://localhost:5000/exercises/update/688a6fee71069ae17aa9e424`
+   - & 
+      ```json
+              {
+        "username": "bhaskar",
+        "description": "Mountain Climbing",
+        "duration": 9,
+        "date": "2025-08-30T19:03:24.994Z"
+        }
+      ```
+   - Output : `"Exercise Updated !"`
+   - YOU ALWAYS HAVE TO SEND PROPER ALL FIELDS,NOT PARTIAL OF ANY KIND, NOTHING LESS, NOTHING MORE , JUST EXACT !!!!!!
 7. **DELETE** `http://localhost:5000/exercises/<id>`
+    - literally same as update , just `POST -> DELETE`
+    - eg: `http://localhost:5000/exercises/688a6fee71069ae17aa9e424`, not exercises/delete/:id 
+   - & 
+      ```json
+              {
+            "username": "bhati",
+            "description": "Deadlift",
+            "duration": 11,
+            "date": "2025-08-30T19:03:24.994Z"
+        }
+      ```
+   - Output : `"Exercise Deleated !"`
+   - YOU ALWAYS HAVE TO SEND PROPER ALL FIELDS,NOT PARTIAL OF ANY KIND, NOTHING LESS, NOTHING MORE , JUST EXACT !!!!!!
+
+- all stuff sync with mongodb database !!
+- you can directly do changes in MongoDB Atlas Panel !!
+- good job :0
+
+
 
 ---
 
