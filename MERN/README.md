@@ -1285,12 +1285,11 @@ export default App;
 
 - now we will make components in `src/components`
 
-```
+```bash
 cd src
 mkdir components
 cd components
 touch Navbar.component.js CreatUser.component.js CreateExercise.component.js ExerciseList.component.js EditExercise.component.js
-
 ```
 ---
 
