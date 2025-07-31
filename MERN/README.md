@@ -36,6 +36,7 @@
       - [Params](#params)
   - [6. Testing API (Insomnia / Postman)](#6-testing-api-insomnia--postman)
   - [7. Frontend Setup (React) (Actual Code Start)](#7-frontend-setup-react-actual-code-start)
+    - [React](#react)
     - [7.2 `public/index.html`](#72-publicindexhtml)
     - [7.3 `src/index.js`](#73-srcindexjs)
     - [7.4 `src/App.js`](#74-srcappjs)
@@ -1020,15 +1021,58 @@ module.exports = router;
 
 - all stuff sync with mongodb database !!
 - you can directly do changes in MongoDB Atlas Panel !!
+- now let's jump to frontend.
 - good job :0
-
-
 
 ---
 
 ## 7. Frontend Setup (React) (Actual Code Start)
+### React
+- Declarative, efficient, flexible JS Lib. for building UIs.
+- It lets you compose complex UIs from small and isolated pieces of code called COMPONENTs.
+- we use components to tell react, what we want to see the screen.
+- when our data change, react will effiently update and re-render our components.
+- components takes in parametet called PROPs(Properties)
+- and it return a hierarchy of views to display throught the render method
+- RENDER METHOD returns a description of what you want to see on screen as JSX(React Element, Special Syntax)
+- JSX converted to Html before it goes throught preprocessing
+- JSX Comes with full power of JS under {}
+- JSX have className ,not class in HTML
+
+- REACT SAMPLE COMPONENT CODE :
+```jsx
+// Define a class component called ShoppingList which inherits from React.Component
+class ShoppingList extends React.Component {
+
+  // Define the render method - it returns JSX to be displayed
+  render() {
+    return (
+      // Main wrapper div with a class name for styling
+      <div className="shopping-list">
+
+        {/* Display a heading with dynamic name passed via props */}
+        <h1>Shopping List for {this.props.name}</h1>
+
+        {/* Unordered list of shopping items */}
+        <ul>
+          <li>Cereal</li>    // First item in the list
+          <li>Milk</li>      // Second item in the list
+          <li>Bananas</li>   // Third item in the list
+        </ul>
+      </div>
+    );
+  }
+}
+
+// Example usage: <ShoppingList name="Beau" />
+// This renders: Shopping List for Beau with 3 items
+
+```
 
 ### 7.2 `public/index.html`
+
+- this HTML Loads when we go to website
+- at here `<div id="root"></div>` our react app Loads.
 
 * Change `<title>` to **Exercise Tracker**
 * Ensure `<div id="root"></div>` remains
