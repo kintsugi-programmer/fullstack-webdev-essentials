@@ -41,6 +41,16 @@
     - [7.3 `src/index.js`](#73-srcindexjs)
     - [7.4 `src/App.js`](#74-srcappjs)
     - [7.5 Components](#75-components)
+      - [BootStrap Essentials](#bootstrap-essentials)
+        - [1. Getting Started](#1-getting-started)
+        - [2. Layout: Grid System](#2-layout-grid-system)
+        - [3. Buttons](#3-buttons)
+        - [4. Form Input](#4-form-input)
+        - [5. Navbar](#5-navbar)
+        - [6. Card](#6-card)
+        - [7. Utility Classes](#7-utility-classes)
+        - [8. Responsive Visibility](#8-responsive-visibility)
+        - [9. Container Types](#9-container-types)
       - [7.5.1 `src/components/Navbar.component.js`](#751-srccomponentsnavbarcomponentjs)
       - [7.5.2 `src/components/CreateUser.component.js`](#752-srccomponentscreateusercomponentjs)
       - [7.5.3 `src/components/CreateExercise.component.js`](#753-srccomponentscreateexercisecomponentjs)
@@ -1219,111 +1229,330 @@ webpack compiled successfully
 - MAIN CODE 
 
 ```js
+// Importing the React library to use JSX and component features
+import React from 'react';
+
+// Importing Bootstrap CSS for styling (you get buttons, layouts, etc. pre-designed)
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Importing tools from React Router for handling navigation between pages
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+// Importing the components used in the app
+import Navbar from './components/Navbar.component'; // Top navigation bar
+import ExerciseList from './components/ExerciseList.component'; // Home page - shows list of exercises
+import CreateExercise from './components/CreateExercise.component'; // Page to create a new exercise
+import EditExercise from './components/EditExercise.component'; // Page to edit an existing exercise
+import CreateUser from './components/CreateUser.component'; // Page to create a new user
+
+// Main App component
+function App() {
+  return (
+    // Wraps the entire application inside the Router so routing can work
+    <Router>
+      {/* This div gives some padding and centers content using Bootstrap's 'container' class */}
+      <div className="container">
+
+        {/* The Navbar is always shown at the top of the page */}
+        <Navbar />
+
+        {/* Just a line break for spacing */}
+        <br />
+
+        {/* Define routes for different URLs and their corresponding components */}
+
+        {/* If the URL is exactly '/', show the ExerciseList component (i.e., the homepage) */}
+        <Route path="/" exact component={ExerciseList} />
+
+        {/* If the URL is '/edit/:id', show the EditExercise component.
+            The ':id' is a dynamic part - it will be replaced by an actual exercise ID */}
+        <Route path="/edit/:id" component={EditExercise} />
+
+        {/* If the URL is '/create', show the CreateExercise component */}
+        <Route path="/create" component={CreateExercise} />
+
+        {/* If the URL is '/user', show the CreateUser component */}
+        <Route path="/user" component={CreateUser} />
+      </div>
+    </Router>
+  );
+}
+
+// Export the App component so it can be used in index.js to render the whole app
+export default App;
 
 ```
-- we will make components in `src/components`
+
+- now we will make components in `src/components`
+
+```
+cd src
+mkdir components
+cd components
+touch Navbar.component.js CreatUser.component.js CreateExercise.component.js ExerciseList.component.js EditExercise.component.js
+
+```
 ---
 
 ### 7.5 Components
 
+#### BootStrap Essentials
+Bootstrap is a popular open-source CSS framework developed by Twitter. It helps you build responsive, mobile-first websites quickly with pre-designed components and utility classes.
+
+- Current version: Bootstrap 5.x
+- No jQuery required in Bootstrap 5+
+- Includes: Grid system, Components, Utilities, JavaScript plugins
+
+##### 1. Getting Started
+
+Include Bootstrap via CDN:
+
+```html
+<!-- In the <head> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Before </body> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+```
+
+##### 2. Layout: Grid System
+
+```html
+<div class="container">
+  <div class="row">
+    <div class="col-6">Left</div>
+    <div class="col-6">Right</div>
+  </div>
+</div>
+```
+
+##### 3. Buttons
+
+```html
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-outline-danger">Outline Danger</button>
+```
+
+##### 4. Form Input
+
+```html
+<form>
+  <div class="mb-3">
+    <label for="exampleInput" class="form-label">Name</label>
+    <input type="text" class="form-control" id="exampleInput" placeholder="Enter your name">
+  </div>
+</form>
+```
+
+##### 5. Navbar
+
+```html
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">MySite</a>
+  </div>
+</nav>
+```
+
+##### 6. Card
+
+```html
+<div class="card" style="width: 18rem;">
+  <img src="image.jpg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Card Title</h5>
+    <p class="card-text">Some quick example text.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+```
+
+##### 7. Utility Classes
+
+```html
+<p class="text-center fw-bold text-success">Centered bold green text</p>
+<div class="m-4 p-2 bg-light">Box with margin and padding</div>
+```
+
+##### 8. Responsive Visibility
+
+```html
+<div class="d-none d-md-block">Visible on md and larger</div>
+<div class="d-block d-md-none">Visible only on small screens</div>
+```
+
+##### 9. Container Types
+
+```html
+<div class="container">Fixed-width container</div>
+<div class="container-fluid">Full-width container</div>
+```
+
+
+
 #### 7.5.1 `src/components/Navbar.component.js`
 
 ```js
+// Import React and Component class from 'react' so we can define a class component
 import React, { Component } from 'react';
+
+// Import Link from react-router-dom for client-side navigation (without reloading the page)
 import { Link } from 'react-router-dom';
 
+// Define and export a Navbar class component
 export default class Navbar extends Component {
+  // The render method returns the JSX that will be displayed
   render() {
     return (
+      // This is a Bootstrap-styled navigation bar (dark background and expands on larger screens)
       <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
+        
+        {/* The brand/logo part of the navbar, clicking it takes user to the home page ("/") */}
         <Link to="/" className="navbar-brand">Exercise Tracker</Link>
-        <div className="collpase navbar-collapse">
+        
+        {/* Container for the navigation links - Note: small typo in 'collapse' fixed below */}
+        <div className="collapse navbar-collapse">
+          
+          {/* Unordered list to group navigation items */}
           <ul className="navbar-nav mr-auto">
+
+            {/* First navigation item: Link to home page, shows "Exercises" */}
             <li className="navbar-item">
               <Link to="/" className="nav-link">Exercises</Link>
             </li>
+
+            {/* Second navigation item: Link to create a new exercise */}
             <li className="navbar-item">
               <Link to="/create" className="nav-link">Create Exercise</Link>
             </li>
+
+            {/* Third navigation item: Link to create a new user */}
             <li className="navbar-item">
               <Link to="/user" className="nav-link">Create User</Link>
             </li>
+
           </ul>
         </div>
       </nav>
     );
   }
 }
+
 ```
 
 #### 7.5.2 `src/components/CreateUser.component.js`
 
 ```js
+// Importing React and Component so we can use class-based components
 import React, { Component } from 'react';
+
+// Import axios for sending HTTP requests (used to talk to the backend server)
 import axios from 'axios';
 
+// CreateUser component: lets users create a new username and save it to the backend
 export default class CreateUser extends Component {
+  // Constructor: initializes the component with default state and binds methods
   constructor(props) {
     super(props);
+
+    // Component state to store the current value of the username input field
     this.state = { username: '' };
 
+    // Bind 'this' to event handler methods so they work correctly inside the class
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  // Event handler: updates state when the input value changes
   onChangeUsername(e) {
-    this.setState({ username: e.target.value });
+    this.setState({ username: e.target.value }); // e.target.value is the typed input
   }
 
+  // Event handler: runs when the form is submitted
   onSubmit(e) {
-    e.preventDefault();
-    const user = { username: this.state.username };
-    console.log(user);
-    axios.post('http://localhost:5000/users/add', user)
-      .then(res => console.log(res.data));
+    e.preventDefault(); // Prevents default page reload behavior of a form
 
+    // Create a user object from the current state
+    const user = { username: this.state.username };
+
+    // Log the user to the console (for debugging)
+    console.log(user);
+
+    // Send a POST request to the backend server to add this user
+    axios.post('http://localhost:5000/users/add', user)
+      .then(res => console.log(res.data)); // Logs the server response to console
+
+    // Reset the form by clearing the username from the state
     this.setState({ username: '' });
   }
 
+  // The render() method defines the UI that gets displayed on the screen
   render() {
     return (
       <div>
         <h3>Create New User</h3>
+
+        {/* Form element to capture the username */}
         <form onSubmit={this.onSubmit}>
+
+          {/* Bootstrap form group for styling */}
           <div className="form-group">
             <label>Username:</label>
-            <input type="text"
-              required
-              className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUsername}
+            <input
+              type="text"                 // Input field type
+              required                    // Makes the field mandatory
+              className="form-control"   // Bootstrap class for styling input
+              value={this.state.username} // Controlled input value
+              onChange={this.onChangeUsername} // Update state when user types
             />
           </div>
+
+          {/* Submit button to send form data */}
           <div className="form-group">
-            <input type="submit" value="Create User" className="btn btn-primary" />
+            <input
+              type="submit"
+              value="Create User"
+              className="btn btn-primary" // Bootstrap button style
+            />
           </div>
+
         </form>
       </div>
     );
   }
 }
+
 ```
 
 #### 7.5.3 `src/components/CreateExercise.component.js`
 
 ```js
+// Import React and Component for class-based component
 import React, { Component } from 'react';
+
+// Import a calendar date-picker component and its CSS for selecting dates
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+// Import axios to send HTTP requests (e.g., to fetch or save data)
 import axios from 'axios';
 
+// Define and export the CreateExercise component
 export default class CreateExercise extends Component {
   constructor(props) {
     super(props);
+
+    // Initialize the component's state
     this.state = {
-      username: '', description: '', duration: 0, date: new Date(), users: []
+      username: '',       // Selected username from dropdown
+      description: '',    // Text about the exercise
+      duration: 0,        // Duration in minutes
+      date: new Date(),   // Date of exercise
+      users: []           // List of all usernames fetched from server
     };
-    // bind methods
+
+    // Bind the 'this' keyword to all methods so they work correctly in class component
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onChangeDuration = this.onChangeDuration.bind(this);
@@ -1331,35 +1560,61 @@ export default class CreateExercise extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  // Lifecycle method: runs after the component is first added to the page
   componentDidMount() {
+    // Fetch the list of users from the backend
     axios.get('http://localhost:5000/users/')
-      .then(res => { if (res.data.length > 0) {
-        this.setState({
-          users: res.data.map(user => user.username),
-          username: res.data[0].username
-        });
-      }})
-      .catch(err => console.log(err));
+      .then(res => {
+        // If users exist, update the state with usernames
+        if (res.data.length > 0) {
+          this.setState({
+            users: res.data.map(user => user.username), // Get only usernames
+            username: res.data[0].username // Set default selected username
+          });
+        }
+      })
+      .catch(err => console.log(err)); // Log any error
   }
 
-  onChangeUsername(e)    { this.setState({ username: e.target.value }); }
-  onChangeDescription(e) { this.setState({ description: e.target.value }); }
-  onChangeDuration(e)    { this.setState({ duration: e.target.value }); }
-  onChangeDate(date)     { this.setState({ date }); }
+  // Method to update state when username is changed from dropdown
+  onChangeUsername(e) {
+    this.setState({ username: e.target.value });
+  }
 
+  // Method to update description text
+  onChangeDescription(e) {
+    this.setState({ description: e.target.value });
+  }
+
+  // Method to update duration
+  onChangeDuration(e) {
+    this.setState({ duration: e.target.value });
+  }
+
+  // Method to update the selected date
+  onChangeDate(date) {
+    this.setState({ date }); // Shorthand for { date: date }
+  }
+
+  // Method called when the form is submitted
   onSubmit(e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevent the form from refreshing the page
+
+    // Create an object with current form values
     const exercise = {
       username: this.state.username,
       description: this.state.description,
       duration: this.state.duration,
       date: this.state.date
     };
-    console.log(exercise);
 
+    console.log(exercise); // Log it to the browser console for debugging
+
+    // Send this data to the backend to store the new exercise log
     axios.post('http://localhost:5000/exercises/add', exercise)
-      .then(res => console.log(res.data));
+      .then(res => console.log(res.data)); // Log the response
 
+    // Redirect to home page after submission
     window.location = '/';
   }
 
@@ -1367,31 +1622,47 @@ export default class CreateExercise extends Component {
     return (
       <div>
         <h3>Create New Exercise Log</h3>
+
+        {/* Form for adding a new exercise */}
         <form onSubmit={this.onSubmit}>
+
+          {/* Dropdown to choose a user */}
           <div className="form-group">
             <label>Username: </label>
             <select required className="form-control"
               value={this.state.username}
               onChange={this.onChangeUsername}>
+              {/* Loop through the users list and show each as an option */}
               {this.state.users.map(user => (
                 <option key={user} value={user}>{user}</option>
               ))}
             </select>
           </div>
+
+          {/* Input for description */}
           <div className="form-group">
             <label>Description: </label>
-            <input  type="text" required className="form-control"
+            <input
+              type="text"
+              required
+              className="form-control"
               value={this.state.description}
               onChange={this.onChangeDescription}
             />
           </div>
+
+          {/* Input for duration */}
           <div className="form-group">
             <label>Duration (in minutes): </label>
-            <input type="number" className="form-control"
+            <input
+              type="number"
+              className="form-control"
               value={this.state.duration}
               onChange={this.onChangeDuration}
             />
           </div>
+
+          {/* Date picker for selecting the date */}
           <div className="form-group">
             <label>Date: </label>
             <div>
@@ -1401,66 +1672,130 @@ export default class CreateExercise extends Component {
               />
             </div>
           </div>
+
+          {/* Submit button */}
           <div className="form-group">
-            <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
+            <input
+              type="submit"
+              value="Create Exercise Log"
+              className="btn btn-primary"
+            />
           </div>
+
         </form>
       </div>
     );
   }
 }
+
 ```
 
 #### 7.5.4 `src/components/ExerciseList.component.js`
 
 ```js
+// Importing React and Component class to create a class-based component
 import React, { Component } from 'react';
+
+// Importing Link from react-router-dom to enable client-side navigation (edit links)
 import { Link } from 'react-router-dom';
+
+// Importing axios to make HTTP requests (GET, DELETE)
 import axios from 'axios';
 
-// Functional component for a single exercise row
-const Exercise = props => (
+//////////////////////////////////////////////////////////////////////////////
+// Functional Component: Exercise
+// This is a **stateless functional component** used to render each exercise row.
+// It receives props (data + delete function) and displays the fields in a table row.
+//////////////////////////////////////////////////////////////////////////////
+const Exercise = (props) => (
   <tr>
-    <td>{props.exercise.username}</td>
-    <td>{props.exercise.description}</td>
-    <td>{props.exercise.duration}</td>
-    <td>{props.exercise.date.substring(0,10)}</td>
+    <td>{props.exercise.username}</td>               {/* Username of person who logged exercise */}
+    <td>{props.exercise.description}</td>            {/* Description of the exercise (e.g. Running) */}
+    <td>{props.exercise.duration}</td>               {/* Duration in minutes */}
+    <td>{props.exercise.date.substring(0, 10)}</td>  {/* Trim date to first 10 chars (YYYY-MM-DD) */}
     <td>
-      <Link to={`/edit/${props.exercise._id}`}>edit</Link> |
+      {/* Link to edit page using the _id from MongoDB document */}
+      <Link to={`/edit/${props.exercise._id}`}>edit</Link> | 
+
+      {/* Delete button: Calls deleteExercise function passed as prop */}
       <a href="#!" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
     </td>
   </tr>
 );
 
+//////////////////////////////////////////////////////////////////////////////
+// Class Component: ExerciseList
+// This component is responsible for:
+// 1. Fetching exercises from backend on mount
+// 2. Rendering the table of exercises
+// 3. Deleting an exercise and updating UI
+//////////////////////////////////////////////////////////////////////////////
 export default class ExerciseList extends Component {
   constructor(props) {
     super(props);
+
+    // Binding 'this' context for the deleteExercise method
     this.deleteExercise = this.deleteExercise.bind(this);
-    this.state = { exercises: [] };
+
+    // Component state holds an array of all exercise objects
+    this.state = {
+      exercises: []
+    };
   }
 
+  ////////////////////////////////////////////////////////////////////////////
+  // Lifecycle Method: componentDidMount()
+  // Runs automatically after the component is rendered (mounted)
+  // Fetches the list of exercises from the backend API using axios
+  ////////////////////////////////////////////////////////////////////////////
   componentDidMount() {
     axios.get('http://localhost:5000/exercises/')
-      .then(res => this.setState({ exercises: res.data }))
-      .catch(err => console.log(err));
+      .then(res => {
+        // On success, update the exercises array in state
+        this.setState({ exercises: res.data });
+      })
+      .catch(err => {
+        // On error, print the error to the console
+        console.log(err);
+      });
   }
 
+  ////////////////////////////////////////////////////////////////////////////
+  // Method: deleteExercise
+  // Deletes an exercise from the database and updates the UI
+  // @param {string} id - ID of the exercise to delete
+  ////////////////////////////////////////////////////////////////////////////
   deleteExercise(id) {
+    // Send DELETE request to backend
     axios.delete(`http://localhost:5000/exercises/${id}`)
-      .then(res => console.log(res.data));
-    this.setState({ exercises: this.state.exercises.filter(el => el._id !== id) });
+      .then(res => console.log(res.data)) // Log server response
+
+    // Update UI by removing the deleted item from state without reloading
+    this.setState({
+      exercises: this.state.exercises.filter(el => el._id !== id)
+    });
   }
 
+  ////////////////////////////////////////////////////////////////////////////
+  // Method: exerciseList
+  // Returns a list of <Exercise /> components, one for each item in the state
+  ////////////////////////////////////////////////////////////////////////////
   exerciseList() {
-    return this.state.exercises.map(currentexercise => (
-      <Exercise
-        exercise={currentexercise}
-        deleteExercise={this.deleteExercise}
-        key={currentexercise._id}
-      />
-    ));
+    return this.state.exercises.map(currentexercise => {
+      return (
+        <Exercise
+          exercise={currentexercise}                 // Pass data to child
+          deleteExercise={this.deleteExercise}       // Pass delete handler to child
+          key={currentexercise._id}                  // Unique key for efficient rendering
+        />
+      );
+    });
   }
 
+  ////////////////////////////////////////////////////////////////////////////
+  // Render Method
+  // This returns the JSX that defines the structure of the component UI
+  ////////////////////////////////////////////////////////////////////////////
   render() {
     return (
       <div>
@@ -1472,33 +1807,52 @@ export default class ExerciseList extends Component {
               <th>Description</th>
               <th>Duration</th>
               <th>Date</th>
-              <th>Actions</th>
+              <th>Actions</th> {/* For edit & delete buttons */}
             </tr>
           </thead>
           <tbody>
-            { this.exerciseList() }
+            { this.exerciseList() } {/* Render list of exercises */}
           </tbody>
         </table>
       </div>
     );
   }
 }
+
 ```
 
 #### 7.5.5 `src/components/EditExercise.component.js`
 
 ```js
+// Import React and Component class for creating a class-based component
 import React, { Component } from 'react';
+
+// Import DatePicker component and its styles
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+// Import axios to make HTTP requests
 import axios from 'axios';
 
+///////////////////////////////////////////////////////////////////////////////
+// CLASS COMPONENT: EditExercise
+// This component fetches an existing exercise entry from the server,
+// allows the user to edit it using a form, and updates it via a POST request.
+///////////////////////////////////////////////////////////////////////////////
 export default class EditExercise extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', description: '', duration: 0, date: new Date(), users: [] };
 
-    // bind methods
+    // Initialize the component state with default values
+    this.state = {
+      username: '',        // Selected user
+      description: '',     // Description of exercise
+      duration: 0,         // Duration in minutes
+      date: new Date(),    // Date of the exercise
+      users: []            // List of usernames for dropdown
+    };
+
+    // Bind `this` context to event handlers
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onChangeDuration = this.onChangeDuration.bind(this);
@@ -1506,32 +1860,66 @@ export default class EditExercise extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+  // LIFECYCLE METHOD: componentDidMount()
+  // Runs after the component is inserted into the DOM
+  // Fetches the existing exercise data to populate the form
+  /////////////////////////////////////////////////////////////////////////////
   componentDidMount() {
-    // fetch exercise
+    // Fetch the specific exercise using the ID from URL params
     axios.get(`http://localhost:5000/exercises/${this.props.match.params.id}`)
-      .then(res => this.setState({
-        username: res.data.username,
-        description: res.data.description,
-        duration: res.data.duration,
-        date: new Date(res.data.date)
-      }))
-      .catch(err => console.log(err));
+      .then(res => {
+        // Update state with exercise data
+        this.setState({
+          username: res.data.username,
+          description: res.data.description,
+          duration: res.data.duration,
+          date: new Date(res.data.date) // Convert to JS Date object
+        });
+      })
+      .catch(err => console.log(err)); // Handle any error
 
-    // fetch users
+    // Fetch list of all users to populate the dropdown
     axios.get('http://localhost:5000/users/')
-      .then(res => { if(res.data.length > 0) {
-        this.setState({ users: res.data.map(user => user.username) });
-      }})
-      .catch(err => console.log(err));
+      .then(res => {
+        // If user list is not empty, extract usernames into the users array
+        if (res.data.length > 0) {
+          this.setState({
+            users: res.data.map(user => user.username)
+          });
+        }
+      })
+      .catch(err => console.log(err)); // Handle error
   }
 
-  onChangeUsername(e)    { this.setState({ username: e.target.value }); }
-  onChangeDescription(e) { this.setState({ description: e.target.value }); }
-  onChangeDuration(e)    { this.setState({ duration: e.target.value }); }
-  onChangeDate(date)     { this.setState({ date }); }
+  // Event handler: update username in state
+  onChangeUsername(e) {
+    this.setState({ username: e.target.value });
+  }
 
+  // Event handler: update description in state
+  onChangeDescription(e) {
+    this.setState({ description: e.target.value });
+  }
+
+  // Event handler: update duration in state
+  onChangeDuration(e) {
+    this.setState({ duration: e.target.value });
+  }
+
+  // Event handler: update date in state
+  onChangeDate(date) {
+    this.setState({ date: date });
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  // FORM SUBMIT HANDLER
+  // Called when the form is submitted. Sends the updated exercise data
+  // to the server using POST request and redirects back to homepage
+  /////////////////////////////////////////////////////////////////////////////
   onSubmit(e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page refresh
+
     const exercise = {
       username: this.state.username,
       description: this.state.description,
@@ -1539,23 +1927,84 @@ export default class EditExercise extends Component {
       date: this.state.date
     };
 
+    console.log('Submitting updated exercise:', exercise);
+
+    // Send POST request to update the exercise on the backend
     axios.post(`http://localhost:5000/exercises/update/${this.props.match.params.id}`, exercise)
       .then(res => console.log(res.data));
 
+    // Redirect to home page after submit
     window.location = '/';
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+  // RENDER METHOD
+  // Returns JSX that renders the form pre-filled with current values
+  /////////////////////////////////////////////////////////////////////////////
   render() {
     return (
       <div>
         <h3>Edit Exercise Log</h3>
         <form onSubmit={this.onSubmit}>
-          {/* Similar form fields as CreateExercise */}
+          {/* USERNAME DROPDOWN */}
+          <div className="form-group">
+            <label>Username: </label>
+            <select
+              required
+              className="form-control"
+              value={this.state.username}
+              onChange={this.onChangeUsername}
+            >
+              {this.state.users.map(user => (
+                <option key={user} value={user}>{user}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* DESCRIPTION INPUT */}
+          <div className="form-group">
+            <label>Description: </label>
+            <input
+              type="text"
+              required
+              className="form-control"
+              value={this.state.description}
+              onChange={this.onChangeDescription}
+            />
+          </div>
+
+          {/* DURATION INPUT */}
+          <div className="form-group">
+            <label>Duration (in minutes): </label>
+            <input
+              type="number"
+              className="form-control"
+              value={this.state.duration}
+              onChange={this.onChangeDuration}
+            />
+          </div>
+
+          {/* DATE PICKER */}
+          <div className="form-group">
+            <label>Date: </label>
+            <div>
+              <DatePicker
+                selected={this.state.date}
+                onChange={this.onChangeDate}
+              />
+            </div>
+          </div>
+
+          {/* SUBMIT BUTTON */}
+          <div className="form-group">
+            <input type="submit" value="Update Exercise Log" className="btn btn-primary" />
+          </div>
         </form>
       </div>
     );
   }
 }
+
 ```
 
 ---
@@ -1665,3 +2114,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+55:00
