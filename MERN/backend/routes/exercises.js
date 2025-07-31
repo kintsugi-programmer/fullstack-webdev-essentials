@@ -4,7 +4,7 @@ const Express = require('express');
 const router = Express.Router(); //() is imp as This will assign the Router function itself, not an instance.
 // NOT // const Router = Express.Router; as Router var is conflict Router stuff 
 // Import the Exercise model
-const Exercise = require('../models/excercise.model');
+const Exercise = require('../models/exercise.model');
 
 // MyChull :)
 const INDEX = router.route('/');
@@ -67,7 +67,7 @@ ADD.post(function(req,res){
 // Find exercise by ID from URL
 // Return exercise or send error
 ID.get(function(req,res){ //function(res, req) { ... },no swap req,res ❌ ORDER MATTERS, TYPICAL READ OF ARGUEMENTS
-    Exercise.findById(req.params.id)// Excercise is mongoose model representin Exercise colleciton in MongoDB db
+    Exercise.findById(req.params.id)// Exercise is mongoose model representin Exercise colleciton in MongoDB db
     // findById is a Mongoose method It searches for a document by its unique _id field (the default MongoDB ID for every document).
     .then(function(Exercise){res.json(Exercise)})
     .catch(function(err){res.status(400).json('Error:'+ err)})

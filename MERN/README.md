@@ -48,6 +48,20 @@
       - [7.5.5 `src/components/EditExercise.component.js`](#755-srccomponentseditexercisecomponentjs)
   - [8. Running the App](#8-running-the-app)
   - [9. Conclusion](#9-conclusion)
+  - [Others](#others)
+    - [Getting Started with Create React App](#getting-started-with-create-react-app)
+      - [Available Scripts](#available-scripts)
+        - [`npm start`](#npm-start)
+        - [`npm test`](#npm-test)
+        - [`npm run build`](#npm-run-build)
+        - [`npm run eject`](#npm-run-eject)
+      - [Learn More](#learn-more)
+        - [Code Splitting](#code-splitting)
+        - [Analyzing the Bundle Size](#analyzing-the-bundle-size)
+        - [Making a Progressive Web App](#making-a-progressive-web-app)
+        - [Advanced Configuration](#advanced-configuration)
+        - [Deployment](#deployment)
+        - [`npm run build` fails to minify](#npm-run-build-fails-to-minify)
 
 ---
 
@@ -426,7 +440,7 @@ MongoDB db-connection est. SUCCESS
 ### 5.5 Mongoose Models
 - now let's setup db
 - let's make schema using mongoose
-- let's make `backend/model` folder ,where we have `user.model.js`,`excercise.model.js`
+- let's make `backend/model` folder ,where we have `user.model.js`,`exercise.model.js`
 > In Mongoose, a model is a blueprint for a collection in MongoDB.Once you define a model, you can use it to:
 Create, Read, Update, and Delete documents in that collection (CRUD)
 > If MongoDB is like a database of Excel sheets,
@@ -476,7 +490,7 @@ module.exports = User; //This line exports the User model so you can import and 
 const mongoose = require('mongoose')
 const Schema =  mongoose.Schema;
 
-const excerciseSchema = new Schema(
+const exerciseSchema = new Schema(
     {
         username : {type: String, required: true},
         description: {type: String, required: true},
@@ -490,7 +504,7 @@ const excerciseSchema = new Schema(
     }
 );
 
-const Exercise = mongoose.model('Exercise',excerciseSchema);
+const Exercise = mongoose.model('Exercise',exerciseSchema);
 module.exports = Exercise;
 
 ```
@@ -735,7 +749,7 @@ const Express = require('express');
 const router = Express.Router(); //() is imp as This will assign the Router function itself, not an instance.
 // NOT // const Router = Express.Router; as Router var is conflict Router stuff 
 // Import the Exercise model
-const Exercise = require('../models/excercise.model');
+const Exercise = require('../models/exercise.model');
 
 // MyChull :)
 const INDEX = router.route('/');
@@ -798,7 +812,7 @@ ADD.post(function(req,res){
 // Find exercise by ID from URL
 // Return exercise or send error
 ID.get(function(req,res){ //function(res, req) { ... },no swap req,res ❌ ORDER MATTERS, TYPICAL READ OF ARGUEMENTS
-    Exercise.findById(req.params.id)// Excercise is mongoose model representin Exercise colleciton in MongoDB db
+    Exercise.findById(req.params.id)// Exercise is mongoose model representin Exercise colleciton in MongoDB db
     // findById is a Mongoose method It searches for a document by its unique _id field (the default MongoDB ID for every document).
     .then(function(Exercise){res.json(Exercise)})
     .catch(function(err){res.status(400).json('Error:'+ err)})
@@ -1077,46 +1091,137 @@ class ShoppingList extends React.Component {
 * Change `<title>` to **Exercise Tracker**
 * Ensure `<div id="root"></div>` remains
 
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Exercise Tracker</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
+```
+
 ### 7.3 `src/index.js`
+- it's get loaded when we go to website
+- imports `React`,`ReactDOM`,`./index.css`,`App`,etc.
 
 ```js
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import './index.css';
 import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));// from public/index.html <div id="root"></div>
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
 ```
 
 ### 7.4 `src/App.js`
-
+- main react app where we're gonna put all of our code that will display on the page
+- SAMPLE :
 ```js
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Navbar from './components/Navbar.component';
-import ExerciseList from './components/ExerciseList.component';
-import CreateExercise from './components/CreateExercise.component';
-import EditExercise from './components/EditExercise.component';
-import CreateUser from './components/CreateUser.component';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
   return (
-    <Router>
-      <div className="container">
-        <Navbar />
-        <br />
-        <Route path="/" exact component={ExerciseList} />
-        <Route path="/edit/:id" component={EditExercise} />
-        <Route path="/create" component={CreateExercise} />
-        <Route path="/user" component={CreateUser} />
-      </div>
-    </Router>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
 export default App;
 ```
+- run it by `npm start` 
+```bash
+Compiled successfully!
 
+You can now view mern-exercise-tracker in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://192.168.1.9:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+```
+- Edit src/App.js and save to reload.
+- its Loaded on `http://localhost:3000`
+
+
+- bootstrap: UI Lib
+- react-router-dom: makes easy to route specific UR: paths to different react components that will load on the page.
+- make sandwich of `<Router> </Router>`
+- `<Route/>`elemenent is used to route each element in application ,eg: in this `<Route path="/edit/:id" component= {CreateExercise}>  ` if we go to this path`/edit/:id` then it will LOAD this component `CreateExercise`
+
+- MAIN CODE 
+
+```js
+
+```
+- we will make components in `src/components`
 ---
 
 ### 7.5 Components
@@ -1488,4 +1593,75 @@ Feel free to extend this app by:
 
 Happy coding! 🚀
 
+## Others
+### Getting Started with Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+#### Available Scripts
+
+In the project directory, you can run:
+
+##### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+##### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+##### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+##### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+#### Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+##### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+##### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+##### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+##### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+##### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+##### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
